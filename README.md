@@ -10,6 +10,9 @@ Disciplina cursada na UFABC em 2021.1, ministrada pelo [Prof. Dr. Carlo Kleber d
     - [Redes convergentes](#redes-convergentes)
       - [Vantagens](#vantagens)
     - [Redes com fio e sem fio](#redes-com-fio-e-sem-fio)
+  - [Aula 2: Internet](#aula-2-internet)
+    - [Modelo OSI](#modelo-osi)
+    - [Modelo TCP-IP](#modelo-tcp-ip)
 
 ## [Semana 1](https://drive.google.com/file/d/1hXh3Z0Z29k6RTCtAl6PjDhQB6VMvEdJb/view): Conceitos e Fundamentos
 
@@ -96,12 +99,48 @@ Todos os dados convergem para uma plataforma de transporte comum que permite que
 - **Redes sem fio:** Pode ser infraestruturada ou sem infraestrutura (ou MANET, *Mobile Ad Hoc Network*).
   - **Infraestruturada:** possui uma estrutura envolvendo a rede, que é acessada de pontos principais como antenas de provedoras de rede, roteadores que geram uma área de cobertura, e hospedeiros.
   - **MANET:** todos os nós da rede compartilham as funções de hospedeiro e roteador.
-- **O desafio da mobilidade:** Redes sem fio nem sempre precisam ser móveis e se encontram em um espectro de mobilidade. O aumento na mobilidade é necessário com o crescente aumento de celulares e outros dispositivos conectados à internet.É preciso:
+- **O desafio da mobilidade:** Redes sem fio nem sempre precisam ser móveis e se encontram em um espectro de mobilidade. O aumento na mobilidade é necessário com o crescente aumento de celulares e outros dispositivos conectados à internet. É preciso:
   - Aumentar a comunicação feita sem fios.
   - Aumentar a quantidade de pontos possíveis de conexão à rede sem fio (área de cobertura).
   - Aumentar a força de sinal de rádio.
   - Reduzir a interferência externa por outras fontes (como telefone sem fio e ruídos externos).
   - Reduzir a reflexão do sinal pelo caminho (fator que reduz a velocidade do sinal).
 - **Problemas comuns**
-  - **Terminal oculto:** <span style="color: red">TODO</span>
-  - **Terminal exposto:** <span style="color: red">TODO</span>
+  - **Terminal oculto:** TODO
+  - **Terminal exposto:** TODO
+
+## [Aula 2](https://drive.google.com/file/d/1Y3X4H8Rv3BqTxzzN5OtugFxADL1MA5Wu/view): Internet
+
+A internet é a rede lógica mais usada no mundo. Na internet, a visão que os usuários têm da comunicação é apenas a das camadas lógicas de alto nível, sendo assim detalhes da rede física são ocultados. É consolidada pela *Internet Society* (ISOC) desde 1992 e no Brasil desde 1996 principalmente pela Rede Nacional de Ensino e Pesquisa (RNP), fundada em 1989.
+
+### Modelos em camadas
+
+Redes são construídas em camadas para reduzir a complexidade de um projeto. Nesse modelo, cada camada é responsável por uma função de nível maior de abstração e atende um nível superior, até chegar no usuário final.
+
+De forma geral, cada camada de uma máquina se comunica com sua correspondente de outra máquina. As regras de comunicação entre camadas são chamadas de **protocolos** de uma camada e estabelece a forma como a comunicação será feita.
+
+Os serviços oferecidos por uma camada à sua superior podem ser de dois tipos:
+
+- **Serviços orientados a conexão:** baseado no sistema postal. Durante o serviço, é estabelecida uma conexão, a conexão é usada e então liberada. Durante a conexão, parâmetros envolvidos como o tamanho da mensagem ou a qualidade do serviço podem ser negociados entre as máquinas.
+
+  A conexão é feita enviando os dados (geralmente em ordem) pelo transmissor para o receptor de forma que os bits sejam recebidos na mesma sequência que são enviados. A mensagem é roteada pelo sistema independente das outras mensagens até chegar no destino. Porém, é possível alterar a ordem 
+
+- **Serviços sem orientação à conexão:** TODO
+
+Entre os modelos em camadas podemos citar os modelos OSI e TCP/IP.
+
+### Modelo OSI
+
+É proposto pela ISO Mais conceitual e apesar de possuir menos camadas, é mais completo. Possui 7 camadas:
+
+  1. Aplicação
+  2. Apresentação
+  3. Sessão
+  4. Transporte
+  5. Rede
+  6. Enlace de Dados
+  7. Física
+
+### Modelo TCP-IP
+
+Mais prático e é o que baseia a internet e a primeira rede geograficamente distribuida, a ARPANET.
