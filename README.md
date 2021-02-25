@@ -11,8 +11,13 @@ Disciplina cursada na UFABC em 2021.1, ministrada pelo [Prof. Dr. Carlo Kleber d
       - [Vantagens](#vantagens)
     - [Redes com fio e sem fio](#redes-com-fio-e-sem-fio)
   - [Aula 2: Internet](#aula-2-internet)
+    - [Modelos em camadas](#modelos-em-camadas)
     - [Modelo OSI](#modelo-osi)
     - [Modelo TCP-IP](#modelo-tcp-ip)
+    - [Arquiteturas de Aplicação](#arquiteturas-de-aplicação)
+    - [Comunicação em Redes](#comunicação-em-redes)
+    - [Protocolo TCP](#protocolo-tcp)
+    - [Protocolo UDP](#protocolo-udp)
 
 ## [Semana 1](https://drive.google.com/file/d/1hXh3Z0Z29k6RTCtAl6PjDhQB6VMvEdJb/view): Conceitos e Fundamentos
 
@@ -123,7 +128,7 @@ Os serviços oferecidos por uma camada à sua superior podem ser de dois tipos:
 
 - **Serviços orientados a conexão:** baseado no sistema postal. Durante o serviço, é estabelecida uma conexão, a conexão é usada e então liberada. Durante a conexão, parâmetros envolvidos como o tamanho da mensagem ou a qualidade do serviço podem ser negociados entre as máquinas.
 
-  A conexão é feita enviando os dados (geralmente em ordem) pelo transmissor para o receptor de forma que os bits sejam recebidos na mesma sequência que são enviados. A mensagem é roteada pelo sistema independente das outras mensagens até chegar no destino. Porém, é possível alterar a ordem 
+  A conexão é feita enviando os dados (geralmente em ordem) pelo transmissor para o receptor de forma que os bits sejam recebidos na mesma sequência que são enviados. A mensagem é roteada pelo sistema independente das outras mensagens até chegar no destino. Porém, é possível alterar a ordem.
 
 - **Serviços sem orientação à conexão:** TODO
 
@@ -131,16 +136,67 @@ Entre os modelos em camadas podemos citar os modelos OSI e TCP/IP.
 
 ### Modelo OSI
 
-É proposto pela ISO Mais conceitual e apesar de possuir menos camadas, é mais completo. Possui 7 camadas:
+É uma proposta de arquitetura em camadas que visa minimizar o fluxo de dados entre camadas e funções exercidas por cada camada. É composta por:
 
-  1. Aplicação
-  2. Apresentação
-  3. Sessão
-  4. Transporte
-  5. Rede
-  6. Enlace de Dados
-  7. Física
+1. Aplicação
+2. Apresentação
+3. Sessão
+4. Transporte
+5. Rede
+6. Enlace de Dados
+7. Física
 
 ### Modelo TCP-IP
 
-Mais prático e é o que baseia a internet e a primeira rede geograficamente distribuida, a ARPANET.
+Mais prático e é o que baseia a internet e a primeira rede geograficamente distribuida, a ARPANET. Embora implemente o modelo OSI, é mais simples e é baseado principalmente nos protocolos TCP e IP e é dividido em 5 camadas:
+
+1. **Aplicação:** Realiza o seviço de comunicação com o usuário (navegação web, e-mails, chats, etc.).
+2. **Transporte:** Multiplexa e controla o fluxo e a comunicação entre pontas na rede e controla parte dos erros.
+3. **Rede:** Identifica logicamente os pontos da rede e encaminha pacotes via roteadores.
+4. **Enlace:** Gera compatibilidade entre a camada de rede (*software*) e as tecnologias de enlace (*hardware*).
+5. **Física:** Representa o *hardware* e circuitos que compõe a parte material da rede.
+
+### Arquiteturas de Aplicação
+
+Aplicações podem ser de três tipos de arquitetura:
+
+- **Cliente-servidor:** Sempre há um *host* funcionando (o servidor) para atender as requisições dos outros *hosts* (clientes). Seu endereço de IP é fixo. A web, transferência de arquivos, logins remotos e e-mails são feitos assim. Geralmente existem *server farms* para garantir que sempre haverá um servidor funcionando.
+- **P2P (*Peer to Peer*):** Nem sempre haverá um servidor funcionando no centro da aplicação, havendo pares relativos de *hosts* (*peers*) se comunicando. Nenhum dos lados precisa estar funcionando sempre e é possível mudar o IP. Entre suas vantagens está a escalabilidade, porém por serem distribuídas e descentralizadas não são fáceis de serem gerenciadas. Exemplos são protocolos como BitTorrent, Limewire, Gnutella, etc.
+- **Híbrida:** Possui características de ambas as partes. Por exemplo, o Napster usava arquitetura P2P para trocar MP3s entre os pares sem passar por servidores mas consultava um servidor central para identificar os clientes que possuíam os pares desejados.
+
+### Comunicação em Redes
+
+A comunicação não é feita entre programas e sim entre processos, que são programas que compõe o sistema final. Processos se comunicando entre si usando comunicação interprocessos são geridas pelo sistema operacional, porém processos entre sistemas finais diferentes, com sistemas operacionais diferentes, precisam implementar na internet o TCP/IP para se comunicarem.
+
+No caso da comunicação via troca de mensagens, esse processo é feito da seguinte forma:
+
+- Um processo de origem cria e envia mensagens para a rede.
+- Um processo de destino recebe as mensagens e possivelmente as responde com outras mensagens pela rede.
+
+Essas etapas passam pela camada de aplicação do TCP/IP e consiste nos processos de servidor e cliente, que enviam as mensagens entre si pela rede. O processo que contata é o cliente e o que espera a mensagem é o servidor nesse caso. Nesse processo, as seguintes comunicações são feitas:
+
+- **Sockets:** O processo de envio e recepção de mensagens é feito através de **sockets**, que funcionam como uma porta entre o processo emissor e a infraestrutura de transporte pela camada de aplicação (todo o processo de envio é abstraído).
+  Por definição sockets são a interface entre a camada de aplicação e transporte na máquina e é a API (Application Programming Interface) entre a aplicação e a rede. Após o socket há pouco controle que pode ser feito pela rede: apenas a escolha do protocolo de transporte.
+- **Endereçamento:** UM processo envia uma mensagem a outro processo ao identificar o processo de destino especificando:
+  - Seu nome ou endereço de host, como IPv4 (32 bits) ou IPv6 (128 bits).
+  - Um identificador do processo de destino no host, como o número da porta. Existem $2^{16}$ portas disponíveis, e em geral aplicações populares possuem números de porta específicos, como 80 para Web (HTTP) e 25 para correio (SMTP). Mais portas comuns podem ser vistas na [Internet Assigned Number Authority](www.iana.org).
+  Protocolos da camada de aplicação são apenas parte da aplicação de rede, e os protocolos da camada de aplicação definem característias como:
+  - Tipos de mensagem
+  - Sintaxe da mensagem
+  - Semântica entre campos
+  - Regras sobre quando e como um processo envia ou responde as mensagens
+  Alguns protocolos são especificados nas RFCs (domínio público).
+  Os protocolos da camada de transporte disponibiliza dois protocolos de tranporte para a aplicação: TCP e UDP.
+
+### Protocolo TCP
+
+- **Orientado à conexão:** Cliente e servidor trocam informações de controle da camada de transporte em um processo chamado de *handshake* antes da troca de mensagens pela camada de aplicação, agindo como uma apresentação entre as partes. Só então ocorre a conexão TCP.
+- **Confiável:** O TCP garante que os dados serão enviados sem erro na ordem correta sempre.
+- **Controle de congestionamento:** limita a velocidade de transmissão quando há congestionamento de rede.
+  - **Observação:** não existe taxa de transmissão mínima garantida em caso de atrasos.
+
+### Protocolo UDP
+
+- **Não orientado à conexão:** Não existe uma conexão de fato, ou seja, as mensagens fluem sem que haja *handshake* entre cliente e servidor.
+- **Não é confiável:** Não há garantia de entrega nem da ordem dos dados.
+- Não oferece controle de congestionamento, taxa mínima de transmissão e garantia de atrasos.
